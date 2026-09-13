@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spacetope"
+version = "0.0.1"
+description = "Assemble a list of spaces into verified topologicpy cell complexes with circulation"
+requires-python = ">=3.11,<3.12"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = [
+  "topologicpy==0.9.57",
+  "topologic_core==8.0.0",
+  "networkx>=3.3",
+  "ortools>=9.10",
+  "shapely>=2.0",
+  "scipy>=1.12",
+  "numpy>=1.26",
+  "pyyaml>=6",
+  "plotly>=5",
+  "trimesh>=4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "squarify"]
+
+[project.scripts]
+spacetope = "spacetope.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["spacetope*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "gate_m0: M0 gate", "gate_m1: M1 gate", "gate_m2: M2 gate", "gate_m3: M3 gate",
+  "gate_m4: M4 gate", "gate_m5: M5 gate", "gate_m6: M6 gate", "gate_m7: M7 gate", "gate_m8: M8 gate",
+  "slow: builds topologic geometry",
+]
+addopts = "-q"

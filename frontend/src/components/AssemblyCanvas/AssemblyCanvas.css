@@ -1,0 +1,20 @@
+.assembly-canvas { position: absolute; inset: 0; }
+.assembly-canvas__flow { position: absolute; inset: 0; z-index: 1; }
+.assembly-canvas__flow--transparent .react-flow, .assembly-canvas__flow--transparent .react-flow__pane { background: transparent !important; }
+.assembly-canvas__empty { position: absolute; top: 40%; width: 100%; text-align: center; color: #555; pointer-events: none; }
+.space-node { background: rgba(22, 33, 62, 0.92); border: 2px solid #999; border-radius: 6px; padding: 4px 8px; min-width: 90px; color: #e0e0e0; }
+.space-node__name { font-weight: 600; font-size: 12px; }
+.space-node__dims { font-size: 10px; color: #888; }
+.space-node--hl { box-shadow: 0 0 0 3px #ffe066; }
+.space-node--selected { outline: 1px dashed #4ecdc4; }
+.wall-node { width: 12px; height: 12px; border-radius: 50%; background: #d62728; border: 1px solid #fff3; }
+.wall-node--hl { background: #ffe066; box-shadow: 0 0 0 3px #ffe06655; }
+.react-flow__edge.contact-edge path { stroke: #4ecdc4; stroke-width: 1.5; }
+.react-flow__edge.direct-edge path { stroke: #ffffff33; stroke-width: 1; stroke-dasharray: 4 3; }
+.assembly-canvas .react-flow__minimap { background: rgba(15, 15, 30, 0.55); border: 1px solid #2a2a4a; }
+
+/* M7: doors are solid, plain shared walls dashed; shafts are marked */
+.react-flow__edge.door-edge path { stroke: #c08a4a; stroke-width: 2.5; }
+.react-flow__edge.contact-edge path { stroke: #4ecdc4; stroke-width: 1.2; stroke-dasharray: 5 4; }
+.wall-node--door { background: #c08a4a; border-radius: 2px; }
+.space-node--shaft { border-style: double; border-width: 4px; }

@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+out/
+bench/scoreboard.csv
+*.html
+!docs/**/*.html
+!frontend/index.html
+.DS_Store
+node_modules/
+frontend/dist/
+e2e/test-results/
+e2e/playwright-report/
+out/
+
+# AI-written working documents stay local; they are not part of the upstream repo
+CLAUDE.md
+docs/2026-*_*.md
+.claude/

@@ -1,0 +1,33 @@
+name: three_levels_core
+levels: 3
+level_height: 3
+envelope: {w: 22, l: 16, h: 9}
+circulation:
+  corridor: {w: 1.8, l: 10}
+  stairs:
+    - {name: stair, w: 3, l: 5}
+  lifts:
+    - {name: lift, w: 2.5, l: 2.5, serves: [0, 2]}
+spaces:
+  - {name: office_a, w: 4, l: 3, h: 3, program: room, wishes: {level: 0, exterior: true}}
+  - {name: office_b, w: 4, l: 3, h: 3, program: room, wishes: {level: 0, exterior: true}}
+  - {name: kitchen, w: 3, l: 3, h: 3, program: room, wishes: {level: 0}}
+  - {name: wc_0, w: 2, l: 3, h: 3, program: room, wishes: {level: 0}}
+  - {name: office_c, w: 4, l: 3, h: 3, program: room, wishes: {level: 1, exterior: true}}
+  - {name: meeting, w: 5, l: 4, h: 3, program: room, wishes: {level: 1}}
+  - {name: wc_1, w: 2, l: 3, h: 3, program: room, wishes: {level: 1}}
+  - {name: studio, w: 6, l: 4, h: 3, program: room, wishes: {level: 2, exterior: true}}
+  - {name: quiet, w: 2.5, l: 2.5, h: 3, program: room, wishes: {level: 2}}
+  - {name: wc_2, w: 2, l: 3, h: 3, program: room, wishes: {level: 2}}
+contacts:
+  - [corridor_0, office_a]
+  - [corridor_0, office_b]
+  - [corridor_0, kitchen]
+  - [corridor_0, wc_0]
+  - [corridor_1, office_c]
+  - [corridor_1, meeting]
+  - [corridor_1, wc_1]
+  - [office_c, meeting, {door: true}]
+  - [corridor_2, studio]
+  - [corridor_2, quiet]
+  - [corridor_2, wc_2]

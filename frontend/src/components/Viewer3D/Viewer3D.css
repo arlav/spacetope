@@ -1,0 +1,4 @@
+/* behind the graph, and transparent to the mouse until orbiting starts */
+.viewer3d { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.viewer3d--interactive { pointer-events: auto; z-index: 2; }
+.viewer3d canvas { width: 100% !important; height: 100% !important; }

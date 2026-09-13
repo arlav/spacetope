@@ -1,0 +1,39 @@
+spacetope
+Copyright 2026 Arlav
+
+This product includes software developed for spacetope, licensed under the
+Apache License, Version 2.0 (see LICENSE).
+
+Third-party components used at runtime, with their own licences:
+
+  topologicpy            LGPL-3.0-or-later (0.9.68 and later, per PyPI metadata).
+                         NOTE: the version currently pinned in pyproject.toml, 0.9.57,
+                         declares "AGPL v3" in its metadata with a GPLv3 classifier.
+                         Bump the pin to >= 0.9.68 to run under LGPL terms, and treat
+                         that bump as a verify-everything change (docs/TOPOLOGICPY_NOTES.md).
+  topologic_core         binary kernel behind topologicpy; licence unstated in package
+                         metadata — confirm with the author before redistribution.
+  OR-Tools (ortools)     Apache-2.0
+  trimesh                MIT
+  NetworkX               BSD-3-Clause
+  Shapely                BSD-3-Clause
+  NumPy, SciPy           BSD-3-Clause
+  pandas                 BSD-3-Clause
+  PyYAML                 MIT
+  Plotly                 MIT
+  FastAPI, Starlette     MIT
+  Uvicorn                BSD-3-Clause
+  PyTorch (torch)        BSD-3-Clause (optional, M6 learning only)
+  PyTorch Geometric      MIT (optional, M6 learning only)
+
+Frontend components (frontend/package.json):
+
+  React, React DOM       MIT
+  @xyflow/react          MIT
+  three, @react-three/*  MIT
+  zustand                MIT
+  Vite                   MIT
+  @playwright/test       Apache-2.0 (browser tests only)
+
+Licences marked above are as declared by each package. Verify before redistributing a
+binary or hosted product, especially the copyleft entries.

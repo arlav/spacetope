@@ -1,0 +1,7 @@
+{
+  "brief": "three_rooms",
+  "contacts": [
+    ["kitchen", "-x", "living", "+x"],
+    ["bedroom", "-y", "living", "+y"]
+  ]
+}

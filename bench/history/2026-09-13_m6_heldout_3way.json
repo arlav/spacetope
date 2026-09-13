@@ -1,0 +1,666 @@
+{
+ "student_width": 8,
+ "heuristic_width": 16,
+ "rows": [
+  {
+   "brief": "synth_90000",
+   "spaces": 24,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.00451375,
+    "t_gen": 3.13
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.9017855000000001,
+    "deviation": 0.004861,
+    "t_gen": 2.119
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.407
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.9642859999999998,
+    "deviation": 0.004861,
+    "t_gen": 1.545
+   }
+  },
+  {
+   "brief": "synth_90001",
+   "spaces": 22,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.004209,
+    "t_gen": 2.17
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.97,
+    "deviation": 0.008838500000000001,
+    "t_gen": 1.525
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 2.727
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.007576,
+    "t_gen": 1.128
+   }
+  },
+  {
+   "brief": "synth_90002",
+   "spaces": 23,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013043,
+    "t_gen": 1.912
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.96,
+    "deviation": 0.0014490000000000002,
+    "t_gen": 1.51
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 2.364
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013043,
+    "t_gen": 0.928
+   }
+  },
+  {
+   "brief": "synth_90003",
+   "spaces": 19,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.010965,
+    "t_gen": 1.649
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.010965,
+    "t_gen": 1.018
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 1.498
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.007675,
+    "t_gen": 0.78
+   }
+  },
+  {
+   "brief": "synth_90004",
+   "spaces": 30,
+   "levels": 1,
+   "heuristic": {
+    "verified": 3,
+    "distinct": 3,
+    "adjacency": 1.0,
+    "deviation": 0.021667000000000002,
+    "t_gen": 4.695
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.006481,
+    "t_gen": 3.201
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.936
+   },
+   "heuristic_narrow": {
+    "verified": 3,
+    "distinct": 3,
+    "adjacency": 1.0,
+    "deviation": 0.021667000000000002,
+    "t_gen": 2.397
+   }
+  },
+  {
+   "brief": "synth_90005",
+   "spaces": 20,
+   "levels": 3,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013333,
+    "t_gen": 1.754
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013333499999999998,
+    "t_gen": 1.234
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 1.812
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0108335,
+    "t_gen": 0.946
+   }
+  },
+  {
+   "brief": "synth_90006",
+   "spaces": 17,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.00210075,
+    "t_gen": 1.024
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.953947,
+    "deviation": 0.004901750000000001,
+    "t_gen": 0.77
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 1.246
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0014005,
+    "t_gen": 0.572
+   }
+  },
+  {
+   "brief": "synth_90007",
+   "spaces": 13,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.010256,
+    "t_gen": 0.428
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.012821,
+    "t_gen": 0.331
+   },
+   "gnn": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.01089725,
+    "t_gen": 0.515
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.010256,
+    "t_gen": 0.232
+   }
+  },
+  {
+   "brief": "synth_90008",
+   "spaces": 24,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.015972,
+    "t_gen": 2.343
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.9629630000000001,
+    "deviation": 0.004687500000000001,
+    "t_gen": 1.904
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.252
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.01744775,
+    "t_gen": 1.136
+   }
+  },
+  {
+   "brief": "synth_90009",
+   "spaces": 16,
+   "levels": 1,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.012152999999999999,
+    "t_gen": 1.104
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.689
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 0.956
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.012152999999999999,
+    "t_gen": 0.578
+   }
+  },
+  {
+   "brief": "synth_90010",
+   "spaces": 24,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.009722,
+    "t_gen": 2.403
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.910714,
+    "deviation": 0.0018229999999999998,
+    "t_gen": 2.031
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.544
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.021181000000000002,
+    "t_gen": 1.302
+   }
+  },
+  {
+   "brief": "synth_90011",
+   "spaces": 14,
+   "levels": 3,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.706
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.492
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 0.762
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.376
+   }
+  },
+  {
+   "brief": "synth_90012",
+   "spaces": 10,
+   "levels": 1,
+   "heuristic": {
+    "verified": 2,
+    "distinct": 2,
+    "adjacency": 1.0,
+    "deviation": 0.00463,
+    "t_gen": 0.328
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.212
+   },
+   "gnn": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.332
+   },
+   "heuristic_narrow": {
+    "verified": 6,
+    "distinct": 6,
+    "adjacency": 1.0,
+    "deviation": 0.0074069999999999995,
+    "t_gen": 0.172
+   }
+  },
+  {
+   "brief": "synth_90013",
+   "spaces": 25,
+   "levels": 3,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0019050000000000002,
+    "t_gen": 3.632
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0038100000000000005,
+    "t_gen": 2.511
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.813
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0019050000000000002,
+    "t_gen": 1.933
+   }
+  },
+  {
+   "brief": "synth_90014",
+   "spaces": 16,
+   "levels": 3,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013021000000000001,
+    "t_gen": 1.143
+   },
+   "learned": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 0.811
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 1.264
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.013021000000000001,
+    "t_gen": 0.646
+   }
+  },
+  {
+   "brief": "synth_90015",
+   "spaces": 30,
+   "levels": 1,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.9714289999999999,
+    "deviation": 0.021666999999999995,
+    "t_gen": 4.064
+   },
+   "learned": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 2.157
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.649
+   },
+   "heuristic_narrow": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 1.931
+   }
+  },
+  {
+   "brief": "synth_90016",
+   "spaces": 23,
+   "levels": 2,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.007246000000000001,
+    "t_gen": 2.321
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 0.9259260000000002,
+    "deviation": 0.0014490000000000002,
+    "t_gen": 2.063
+   },
+   "gnn": {
+    "verified": 0,
+    "distinct": 0,
+    "adjacency": 0.0,
+    "deviation": 1.0,
+    "t_gen": 3.315
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.007319,
+    "t_gen": 1.216
+   }
+  },
+  {
+   "brief": "synth_90017",
+   "spaces": 12,
+   "levels": 1,
+   "heuristic": {
+    "verified": 6,
+    "distinct": 6,
+    "adjacency": 1.0,
+    "deviation": 0.019571,
+    "t_gen": 0.33
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.238
+   },
+   "gnn": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.42
+   },
+   "heuristic_narrow": {
+    "verified": 6,
+    "distinct": 6,
+    "adjacency": 1.0,
+    "deviation": 0.019571,
+    "t_gen": 0.176
+   }
+  },
+  {
+   "brief": "synth_90018",
+   "spaces": 10,
+   "levels": 1,
+   "heuristic": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.309
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 6,
+    "adjacency": 0.909091,
+    "deviation": 0.0,
+    "t_gen": 0.228
+   },
+   "gnn": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.293
+   },
+   "heuristic_narrow": {
+    "verified": 8,
+    "distinct": 7,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.174
+   }
+  },
+  {
+   "brief": "synth_90019",
+   "spaces": 14,
+   "levels": 1,
+   "heuristic": {
+    "verified": 2,
+    "distinct": 2,
+    "adjacency": 1.0,
+    "deviation": 0.011447,
+    "t_gen": 0.671
+   },
+   "learned": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.0,
+    "t_gen": 0.453
+   },
+   "gnn": {
+    "verified": 8,
+    "distinct": 8,
+    "adjacency": 1.0,
+    "deviation": 0.005495,
+    "t_gen": 0.708
+   },
+   "heuristic_narrow": {
+    "verified": 6,
+    "distinct": 6,
+    "adjacency": 1.0,
+    "deviation": 0.011447,
+    "t_gen": 0.324
+   }
+  }
+ ]
+}

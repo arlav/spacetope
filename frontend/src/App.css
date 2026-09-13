@@ -1,0 +1,17 @@
+:root { color-scheme: dark; --bg: #0f0f1e; --panel: #16213e; --line: #2a2a4a; --text: #e0e0e0; --muted: #888; --accent: #e94560; --teal: #4ecdc4; }
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; background: var(--bg); color: var(--text); font: 13px/1.4 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.app { display: flex; flex-direction: column; height: 100%; }
+.app__header { display: flex; align-items: center; gap: 16px; padding: 6px 12px; border-bottom: 1px solid var(--line); background: var(--panel); }
+.app__brand { font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+.app__status { color: var(--muted); font-size: 12px; }
+.app__body { flex: 1; display: grid; grid-template-columns: 340px 1fr 320px; min-height: 0; }
+.app__left, .app__right { overflow: auto; border-right: 1px solid var(--line); background: var(--panel); padding: 10px; }
+.app__right { border-right: none; border-left: 1px solid var(--line); }
+.app__canvas { position: relative; min-width: 0; overflow: hidden; }
+button { background: #1f2a4d; color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
+button:hover { border-color: var(--teal); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+button:disabled { opacity: 0.5; cursor: default; }
+input, select { background: #0f172e; color: var(--text); border: 1px solid var(--line); border-radius: 3px; padding: 2px 4px; font-size: 12px; }
+h3 { margin: 6px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); }

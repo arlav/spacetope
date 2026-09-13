@@ -1,0 +1,267 @@
+name: office_30
+spaces:
+- name: corridor_a
+  w: 1.8
+  l: 16
+  h: 3
+  program: corridor
+- name: office_a1
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a2
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a3
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a4
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a5
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a6
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a7
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: office_a8
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: meeting_a
+  w: 5
+  l: 4
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: kitchen_a
+  w: 3
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: wc_a1
+  w: 2
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: wc_a2
+  w: 2
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: storage_a
+  w: 2
+  l: 2
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: print_a
+  w: 2
+  l: 2
+  h: 3
+  program: room
+  wishes:
+    zone: a
+- name: corridor_b
+  w: 1.8
+  l: 16
+  h: 3
+  program: corridor
+- name: office_b1
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b2
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b3
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b4
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b5
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b6
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b7
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: office_b8
+  w: 4
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: meeting_b
+  w: 5
+  l: 4
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: kitchen_b
+  w: 3
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: wc_b1
+  w: 2
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: wc_b2
+  w: 2
+  l: 3
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: storage_b
+  w: 2
+  l: 2
+  h: 3
+  program: room
+  wishes:
+    zone: b
+- name: print_b
+  w: 2
+  l: 2
+  h: 3
+  program: room
+  wishes:
+    zone: b
+contacts:
+- - corridor_a
+  - office_a1
+- - corridor_a
+  - office_a2
+- - corridor_a
+  - office_a3
+- - corridor_a
+  - office_a4
+- - corridor_a
+  - office_a5
+- - corridor_a
+  - office_a6
+- - corridor_a
+  - office_a7
+- - corridor_a
+  - office_a8
+- - corridor_a
+  - meeting_a
+- - corridor_a
+  - kitchen_a
+- - corridor_a
+  - wc_a1
+- - corridor_a
+  - wc_a2
+- - corridor_a
+  - storage_a
+- - corridor_a
+  - print_a
+- - corridor_b
+  - office_b1
+- - corridor_b
+  - office_b2
+- - corridor_b
+  - office_b3
+- - corridor_b
+  - office_b4
+- - corridor_b
+  - office_b5
+- - corridor_b
+  - office_b6
+- - corridor_b
+  - office_b7
+- - corridor_b
+  - office_b8
+- - corridor_b
+  - meeting_b
+- - corridor_b
+  - kitchen_b
+- - corridor_b
+  - wc_b1
+- - corridor_b
+  - wc_b2
+- - corridor_b
+  - storage_b
+- - corridor_b
+  - print_b
+- - corridor_a
+  - corridor_b

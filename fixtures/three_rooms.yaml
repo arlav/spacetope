@@ -1,0 +1,8 @@
+name: three_rooms
+spaces:
+  - {name: living, w: 5, l: 4, h: 3, program: room}
+  - {name: kitchen, w: 3, l: 4, h: 3, program: room}
+  - {name: bedroom, w: 4, l: 3, h: 3, program: room}
+contacts:
+  - [living, kitchen]
+  - [living, bedroom]
