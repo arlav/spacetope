@@ -107,6 +107,10 @@ Multi-objective ranking: Pareto front (pymoo/DEAP) or architect-weighted sum (Ba
 7. **Magnetizing corridor spine** (C9) — **Selected as the corridor heuristic inside beam search (M2).**
 8. **Z3 feasibility enumeration** (G6) — cross-check only; not scheduled.
 
+Status 2026-09-14 (checked against `spacetope/solve/`): 1, 4, 5 and 6 are implemented; 7 exists as
+corridor-first placement plus corridor stretch, without the post-placement attraction; 2, 3 and 8 are not
+implemented. Designs for the missing pieces and the two small upgrades: `docs/2026-09-14_STRETCH_GOALS_DESIGN.md`.
+
 Rejected for now: QAP grids (A1), packing heuristics (E1), 2D residential generative models (D2) as generators, WFC (G4) except possibly for core placement on a structural grid, true 3D cube packing.
 
 **Data-driven later**: CP/LP layer remains the verifier; ML replaces the proposal layer — a GNN/diffusion model conditioned on the brief graph emitting relation sets (sequence pairs / contact-edge sets) or scoring beam-search moves (Graph2Plan / HouseDiffusion / Building-GAN style); training data = spacetope's own verified options exported via `Graph.ExportToCSV`, plus real buildings' adjacency graphs from an IFC corpus via `Graph.ByTopology`; SSPT-style RL post-training with section H metrics as verifiable rewards.

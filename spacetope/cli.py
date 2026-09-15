@@ -101,6 +101,33 @@ def cmd_floors(args) -> int:
     return 0 if b.feasible and any(c["verified"] for c in out["candidates"]) else 1
 
 
+def cmd_export(args) -> int:
+    """OBJ and/or JSON of a realised complex, from a saved option stem or from a brief + placement."""
+    from .io.mesh import write_json, write_obj
+    if args.stem:
+        from .io.brep import load as load_realised
+        r = load_realised(args.stem)
+    else:
+        if not (args.brief and args.placement):
+            print(json.dumps({"error": "give --stem, or --brief and --placement"})); return 2
+        from .circulation import BriefInvalid, prepare
+        try:
+            brief, _ = prepare(load(args.brief))
+        except BriefInvalid as e:
+            print(json.dumps({"invalid_brief": [p.to_dict() for p in e.problems]}, indent=1)); return 2
+        from .realise import realise
+        r = realise(brief, load_placement(args.placement))
+    out = {}
+    if args.obj:
+        out["obj"] = str(write_obj(r, args.obj))
+    if args.json:
+        out["json"] = str(write_json(r, args.json))
+    if not out:
+        print(json.dumps({"error": "give --obj and/or --json"})); return 2
+    print(json.dumps({"brief": r.brief.name, "cells": r.n_cells, "doors": len(r.doors), **out}, indent=1))
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="spacetope")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -124,6 +151,12 @@ def main(argv=None) -> int:
     f.add_argument("--keep", type=int, default=3, help="placements built and verified per candidate count")
     f.add_argument("--most", type=int, default=3, help="how many candidate counts to try")
     f.set_defaults(fn=cmd_floors)
+    x = sub.add_parser("export", help="OBJ and/or JSON of a realised cell complex, from topologic")
+    x.add_argument("--stem", help="option stem written by --save (reads .brief.json + .placement.json)")
+    x.add_argument("--brief"); x.add_argument("--placement")
+    x.add_argument("--obj", help="output .obj path (a .mtl is written next to it)")
+    x.add_argument("--json", help="output .json path")
+    x.set_defaults(fn=cmd_export)
     args = ap.parse_args(argv)
     return args.fn(args)
 

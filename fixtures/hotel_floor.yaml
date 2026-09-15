@@ -1,0 +1,39 @@
+# One hotel level: ten identical guest rooms along a long double-loaded corridor, a lift lobby,
+# a linen store, one stair and one lift. Many identical rooms exercise symmetry breaking.
+name: hotel_floor
+levels: 1
+level_height: 3
+envelope: {w: 40, l: 16, h: 3}
+circulation:
+  corridor: {w: 1.8, l: 34}
+  stairs:
+    - {name: stair, w: 3, l: 5}
+  lifts:
+    - {name: lift, w: 2.4, l: 2.4}
+spaces:
+  - {name: room_01, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_02, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_03, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_04, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_05, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_06, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_07, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_08, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_09, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: room_10, w: 4, l: 6, h: 3, program: room, wishes: {exterior: true}}
+  - {name: lobby, w: 5, l: 4, h: 3, program: room}
+  - {name: linen, w: 2, l: 3, h: 3, program: room}
+contacts:
+  - [corridor_0, room_01]
+  - [corridor_0, room_02]
+  - [corridor_0, room_03]
+  - [corridor_0, room_04]
+  - [corridor_0, room_05]
+  - [corridor_0, room_06]
+  - [corridor_0, room_07]
+  - [corridor_0, room_08]
+  - [corridor_0, room_09]
+  - [corridor_0, room_10]
+  - [corridor_0, lobby]
+  - [corridor_0, linen]
+  - [lobby, lift]
