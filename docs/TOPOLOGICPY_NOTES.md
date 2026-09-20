@@ -154,3 +154,17 @@ Mitigation in spacetope: `realise.make_cell` checks each built cell's centroid a
 retries twice, and raises `RealiseError("kernel failed to build cell ...")`, so the failure is named and
 `verify` reports `built: False` instead of the process crashing. Multiprocess search with plain specs per
 worker (already the rule) also bounds how much one process asks of the kernel.
+
+## 13. Unused graph machinery and the 0.9.71 differential (2026-09-20)
+
+Full note: `docs/2026-09-20_TOPOLOGICPY_OPPORTUNITIES.md`. Facts, all `[RUN]` unless marked:
+
+- `[RUN 0.9.57]` `TGraph.ByTopology(cc, direct=True, viaSharedTopologies=True)` gives the same order and size as `Graph.ByTopology` (38, 78 on a 12-cell complex) in 0.037 s vs 0.190 s.
+- `[RUN 0.9.57]` `TGraph.AccessGraph(cc, viaSharedApertures=True)` returns spaces + doors as vertices (24, 24 for 12 spaces and 12 doors): a kernel-derived door graph.
+- `[RUN 0.9.57]` `TGraph.Match(pattern, target, vertexKeys=[...])` finds labelled subgraph matches (12 wish triangles in 1 ms). `TGraph.ExportToCSV` writes a PyG-ready folder (`nodes.csv, edges.csv, graphs.csv, meta.yaml`).
+- `[RUN 0.9.57 and 0.9.71]` `TGraph.Integration` fails: `ClosenessCentrality() got an unexpected keyword argument 'mode'`. `BetweennessCentrality`, `CutVertices`, `Bridges` work.
+- `[RUN 0.9.57]` `TGraph.IsIsomorphic(a, b, wlKey="kind")` ignores differing vertex labels (True for two 3-paths with different middle labels); structure-only it is correct. Use networkx for labelled isomorphism.
+- `[RUN 0.9.57]` `Face.Skeleton` on an L-shaped face: 12 edges, 1.1 s. `ShapeGrammar` operations: Replace, Transform, Union, Difference, Symmetric Difference, Intersect, Merge, Slice, Impose, Imprint, Divide; rules are topology → topology, not graph rewriting. `GA` needs `pygad` (absent).
+- `[RUN 0.9.71]` `Topology.ExportToTPY` / `ByTPYPath` round-trip cell dictionaries and face apertures with their dictionaries (2.9 KB, 29 ms / 3 ms). `Topology.JSONString` round trip still loses cell dictionaries.
+- `[RUN 0.9.71]` `Cell.Inflate(cell, faces)` moved 4 of 6 faces to the limiting faces (12 → 90 m³). `Topology.Touches/Overlaps/Disjoint` correct on two boxes. New `TGraph.DisjointPaths`, `MinimumCut`, `VertexConnectivity`, `BiconnectedComponents` work on a door-graph-shaped TGraph (2 disjoint paths between corridors; cut = stair + lift).
+- `[SRC]` 0.9.71 metadata: LGPL-3.0-or-later; deps numpy, scipy, pandas, shapely, plotly, lark, webcolors, nbformat, requests, packaging. `Graph` API identical to 0.9.57 (188 methods).

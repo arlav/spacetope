@@ -149,3 +149,63 @@ def score(r: Realised) -> dict[str, float]:
         "envelope_fit": round(envelope_fit(r.brief, r.placement), 6),
         "daylight": round(daylight(r.brief, r.placement), 6),
     }
+
+
+
+def analysis(r: Realised) -> dict:
+    """Space-syntax style readings of the walkable graph, reported beside the scores but not ranked (PLAN M9):
+    which space carries the most through-movement, which spaces or doors are single points of failure.
+    Door graph for circulation briefs, access graph otherwise. Pure networkx."""
+    if r.brief.circulation:
+        from .doors import door_graph
+        g = door_graph(r.brief, r.doors)
+    else:
+        g = access_graph(r.brief, r.placement)
+    if g.number_of_nodes() == 0:
+        return {}
+    btw = nx.betweenness_centrality(g)
+    top = max(btw, key=btw.get)
+    depth = {}
+    if nx.is_connected(g) and g.number_of_nodes() > 1:
+        ecc = nx.eccentricity(g)
+        depth = {"diameter": max(ecc.values()), "mean_depth": round(sum(dict(nx.shortest_path_length(g, top)).values()) / (g.number_of_nodes() - 1), 4)}
+    return {"walk_nodes": g.number_of_nodes(), "walk_edges": g.number_of_edges(), "connected": nx.is_connected(g),
+            "busiest": top, "busiest_betweenness": round(btw[top], 4),
+            "cut_spaces": sorted(nx.articulation_points(g)), "bridge_doors": sorted(sorted(e) for e in nx.bridges(g)), **depth}
+
+
+def compactness_boxes(placement: Placement) -> float:
+    """Same form factor as `compactness`, from integer boxes: external surface = all box faces minus twice the
+    shared contact areas. Equal to the kernel value for exact complexes; used before anything is built (PLAN M10)."""
+    from .solve.grid import contact_area
+    boxes = list(placement.values())
+    vol = sum(b.volume() for b in boxes) / 1e9
+    surf = sum(2 * (b.w * b.l + b.w * b.h + b.l * b.h) for b in boxes)
+    shared = 0
+    for i, a in enumerate(boxes):
+        for b in boxes[i + 1:]:
+            shared += sum(contact_area(a, b, s) for s in ("+x", "-x", "+y", "-y", "ceiling", "floor"))
+    ext = (surf - 2 * shared) / 1e6
+    if ext <= 0 or vol <= 0:
+        return 0.0
+    return min(1.0, 6 * (vol ** (2 / 3)) / ext)
+
+
+def cheap_scores(brief: Brief, placement: Placement) -> dict[str, float]:
+    """The eight metrics from boxes alone, for ranking before realisation (PLAN M10)."""
+    from .doors import plan_doors
+    from .solve.grid import contact_area
+    names = list(placement)
+    pairs = {frozenset((a, b)) for i, a in enumerate(names) for b in names[i + 1:]
+             if any(contact_area(placement[a], placement[b], s) > 0 for s in ("+x", "-x", "+y", "-y", "ceiling", "floor"))}
+    doors = plan_doors(brief, placement)[0] if brief.circulation else []
+    return {
+        "adjacency": round(adjacency(brief, pairs), 6),
+        "deviation": round(deviation(brief, placement), 6),
+        "compactness": round(compactness_boxes(placement), 6),
+        "circulation": round(circulation(brief, placement), 6),
+        "stacking": round(stacking(placement), 6),
+        "vertical": round(vertical(brief, placement, doors), 6),
+        "envelope_fit": round(envelope_fit(brief, placement), 6),
+        "daylight": round(daylight(brief, placement), 6),
+    }
