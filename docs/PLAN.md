@@ -1,6 +1,82 @@
 # spacetope — plan
 
-Written 2026-09-13. Status: M0–M5 and M7 gates green (111 Python gate tests after the M7 migration; flow and circulation browser tests pass on real and mocked backends). M6 built and evaluated; its gate failed (allowed), see §5; re-evaluation on the M7 synthetic briefs in progress. Next: M8, floor-count search. 
+Written 2026-09-13, updated 2026-09-19. Status: M0–M5, M7 and M8 gates green (M7 rerun 2026-09-19: 40 Python tests in five modules, both mocked browser tests). M6 built and evaluated; its gate failed four times (allowed), see §5. Stretch generators designed (§M9), not scheduled. Plain-language guide: §0. Interactive explainer with real options: the "Spacetope Field Guide" artifact (https://claude.ai/artifact/LogkrcvLKvqZ1Fnq3Zgms7).
+
+## 0. In plain words (for readers who are not solver engineers)
+
+**The problem.** An architect writes a list of rooms: a name, a width, a length, a height, and how much each
+may stretch or shrink (usually ten percent). They add a few wishes: these two rooms must touch, that one
+must have a window, every room must be reachable from a corridor. spacetope turns that list into several
+complete arrangements of the building, each one already checked, and lets the architect choose.
+
+**The trick.** Instead of drawing rooms as free shapes, every room is a box with six walls, and the
+building is described by *which walls touch which*. A wall that touches another room's wall becomes one
+shared wall. Stack a room's ceiling on another room's floor and you have a floor level. That is the whole
+vocabulary: boxes, walls, and pairs of walls that touch.
+
+```mermaid
+flowchart LR
+  subgraph one["one space (a box)"]
+    S((living)) --- PX["+x wall"]
+    S --- MX["−x wall"]
+    S --- PY["+y wall"]
+    S --- MY["−y wall"]
+    S --- FL["floor"]
+    S --- CE["ceiling"]
+  end
+  subgraph two["another space"]
+    K((kitchen)) --- KMX["−x wall"]
+    K --- Kother["…"]
+  end
+  PX -. "contact: these two walls become one shared wall" .- KMX
+```
+
+**Why boxes and shared walls.** Because they can be checked exactly. A gap of half a millimetre between two
+boxes means they are not touching; an overlap of five centimetres means a sliver of a room exists that
+nobody asked for. So every position is an integer number of millimetres, and the geometry kernel
+(topologicpy) is asked to build the building from the boxes and then report back which walls it found
+shared. If what it found matches what we intended, the option is real. If not, it is thrown away. Nothing
+is nudged to make it fit.
+
+**What "an option" is.** One arrangement that passed every check, with scores: how many wished-for
+contacts it delivers, how far room sizes drifted from the request, how compact it is, how much of the
+floor is corridor, how well walls line up between floors, whether every room has an outside wall. The
+architect sees several and picks; the program never picks for them.
+
+**How the arrangements are found.** Three engines exist today and two more are designed. They differ in
+what they search over and what they can promise (§2.1). In one sentence each:
+
+- *Beam search* places rooms one at a time against walls that already exist, keeping the best few partial
+  buildings at every step. Fast, gives many options, weak when the corridor runs out of wall.
+- *CP-SAT* hands the whole problem to a constraint solver: every room's position and size are unknowns, every
+  wish is a rule, and the solver finds arrangements that obey all rules at once. Exact, slower, proves
+  impossibility when a brief cannot be built.
+- *Treemap* slices a rectangle into pieces proportional to room areas. Instant, ignores wishes, exists as a
+  baseline and a seed.
+- *Rectangular dual* (designed) starts from the wish graph and enumerates every distinct way the rooms can
+  tile a rectangle so that all wished contacts are walls.
+- *Sequence pair with annealing* (designed) encodes an arrangement as two orderings of the rooms and
+  improves it by swapping, for buildings too large for the solver.
+
+```mermaid
+flowchart LR
+  B["brief<br/>(list of spaces + wishes)"] --> G["generators<br/>beam · CP-SAT · treemap"]
+  G --> D["dimensioning<br/>integer mm inside tolerance"]
+  D --> R["realise<br/>boxes → CellComplex"]
+  R --> V{"verify<br/>seven checks"}
+  V -- "fails" --> X["discarded"]
+  V -- "passes" --> SC["score → rank"]
+  SC --> O["K options<br/>architect selects one"]
+```
+
+**What the checks are.** The complex builds at all; it has exactly one cell per space; no sliver cells; every
+intended shared wall exists; every cell kept its name tag; the wishes that are rules (levels, envelope)
+hold; every planned door fits its wall and every room can walk to a stair or corridor through doors.
+
+**Where it stands (2026-09-19).** Briefs up to about 15 spaces per level are solved by both engines in
+seconds. At about 20 rooms on one corridor the beam stops producing valid options and the solver needs
+minutes: the corridor's wall runs out, which is also what happens in real buildings, and the answer there is
+a second corridor. Learning-based proposal (M6) was tried and did not beat the hand-tuned engine.
 
 ## 1. What we are building
 
@@ -24,6 +100,40 @@ The **assembly graph** is the union of all SpaceGraphs plus **contact edges** be
 The assembly graph is **intent**. Realisation solves exact coordinates (integer mm) for it, builds boxes, calls `CellComplex.ByCells`, and reads back the **realised graph** with `Graph.ByTopology(cc, direct=True, viaSharedTopologies=True)`, whose shared-face vertices are exactly our wall nodes. Verification = intended contact edges ⊆ realised shared faces. This makes the wall-node idea both the search representation and the ground truth.
 
 Why this works with the literature: the set of contact edges is a **relational encoding** (Flemming's orthogonal structures, VLSI sequence pairs, Wu et al.'s left/right/above/below Booleans). Given the relations, sizes within tolerance are a small LP; given sizes, the relations are a combinatorial search. We keep both halves separable (`docs/ALGORITHM_SURVEY.md` §Ranked shortlist).
+
+### 2.1 The generator options, rigorously
+
+All generators share one contract: `(brief, params, seed) -> list[placement]`, where a placement is an
+integer-millimetre box per space. What differs is the search space, the guarantee, and the failure mode.
+
+| Generator | Searches over | Guarantees by construction | Cannot promise | Cost (measured, seed 0) | Use when |
+|---|---|---|---|---|---|
+| `beam` (`solve/beam.py`) | sequences of wall-to-wall attachments; state = partial placement; width-K frontier | no overlaps; every attachment is a real shared wall with door-width overlap where a door is needed; K distinct signatures if they exist | that every required contact is met (it is scored, not enforced); that a valid placement is found when corridor frontage is nearly exhausted | 0.2–1.4 s for 7–15 spaces; 40 s and 0 valid at 50–64 spaces | every brief first; multi-level with shafts; warm start for CP-SAT |
+| `cpsat` (`solve/cpsat.py`) | all placements at once: integer sizes in bands, positions, rotation, one Boolean per (pair, side) | every required contact is a shared wall with door overlap; no overlaps (`AddNoOverlap2D`); shafts share footprints; access by door for every room; INFEASIBLE reported when no arrangement exists | a solution inside a small time budget on coupled levels (89 s for the 11-space clinic, 245 s for the 64-space school) | 0.7–90 s at ≤ 15 spaces; 4–5 min at 50–64 | rich room-to-room wishes; proving a brief impossible; the reference answer for the beam's quality |
+| `treemap` (`solve/treemap.py`) | a slicing tree over a rectangle with areas proportional to w·l | a valid tiling with no dead space | any wish, any dimension band, more than one level | milliseconds | baseline in the bench; seed for search |
+| `dual` (designed, §M9) | all regular edge labellings of the triangulated wish graph | every wished contact is a wall; every room with an exterior wish is on the outside; enumeration is complete for one triangulation | briefs whose wish graph is not planar; tiny dead space unless `void` cells are allowed | milliseconds per labelling (estimate) | wish graphs with many room-to-room doors (house, gallery, clinic) |
+| `seqpair` (designed, §M9) | two orderings of the rooms per level, improved by simulated annealing | a complete relation per pair; exact contacts after re-dimensioning | optimality; completeness | seconds for 60 rooms (estimate) | levels with 20–60 coupled rooms where CP-SAT exceeds a minute |
+
+Two properties hold for every generator and are what make the options comparable:
+
+- **The same verifier.** No generator's output is trusted. Every placement goes through the same
+  realisation and seven checks; a generator that "guarantees" something only shortens the search.
+- **The same signature.** Two options are distinct when their sets of shared walls differ, not when
+  coordinates differ. Generators are compared on distinct verified options per unit time, which is the
+  column that matters to an architect choosing among alternatives.
+
+```mermaid
+flowchart TB
+  subgraph beam["beam: build up"]
+    b0["corridor"] --> b1["+ office_a on +x"] --> b2["+ office_b on +x"] --> b3["… one room per step, keep best K states"]
+  end
+  subgraph cpsat["CP-SAT: all at once"]
+    c0["x, y, w, l per room in bands<br/>touch[a,b,side] Booleans"] --> c1["no-overlap + required touches + access"] --> c2["minimise deviation + perimeter"] --> c3["solution → block it → next"]
+  end
+  subgraph dual["dual (designed): from the graph"]
+    d0["wish graph"] --> d1["triangulate, 4 corners"] --> d2["edge labelling = one plan topology"] --> d3["walls as segments → integer sizes"]
+  end
+```
 
 ## 3. Pipeline
 
@@ -241,6 +351,8 @@ Design: `docs/2026-09-14_STRETCH_GOALS_DESIGN.md`. In build order: (A) cross-lev
 | 2026-09-14 | Six pre-populated briefs added to `fixtures/` (`house_ground`, `clinic`, `gallery_rich`, `school_wing`, `apartments_four_levels`, `hotel_floor`) with a fast test that every fixture validates and every room has a corridor contact; stretch-goal design written | Bench on seed 0 (beam k=8; CP-SAT k=4, 90 s cap), verified/options, t_gen: house_ground beam 8/8 0.2 s, cpsat 4/4 0.7 s; clinic beam 8/8 0.3 s, cpsat 4/4 89 s; gallery_rich beam 8/8 0.3 s (dev 0.019), cpsat 4/4 59 s; school_wing beam 8/8 0.9 s (stacking 0.83), cpsat 4/4 4.5 s (stacking 0.90); apartments_four_levels beam 8/8 1.4 s (stacking 0.91), cpsat 4/4 0.8 s (stacking 1.0); hotel_floor beam 8/8 0.6 s, cpsat 4/4 65 s. Adjacency 1.0 and daylight 1.0 everywhere. Two envelopes were widened after the first run because the beam returned nothing verified where CP-SAT did: gallery_rich at 22×18 (beam 0/8, cpsat 4/4: the a–c–d–b chain needs one 22 m row) and school_wing at 30×16 (beam 0 options, cpsat 4/4 with stacking 0.62); hotel_floor at 36×16 left two rooms without corridor frontage (beam 0/8). The beam wastes frontage at alignment offsets on tight envelopes; the exact engine does not. That is the case for the dual enumerator and for the gap-closing pass in the design note. |
 | 2026-09-14 | Two large briefs added to find the generators' size limit: `small_hospital` (51 spaces, 2 levels, 23 rooms per level) and `school_three_levels` (64 spaces, 3 levels, 18–21 rooms per level) | Seed 0. Beam: 0 of 8 verified on both, also with envelopes widened to 70×30 and 76×26; two failure kinds: the last small rooms find no corridor frontage, and rooms with both a corridor contact and a room door (emergency_reception, imaging_control, pharmacy_store, practice_room) get placed off the corridor. CP-SAT with a 300 s budget: school 4/4 in 245 s (stacking 0.49); hospital 0 options through the generator (beam warm start plus a 4-way split left 65 s per solve, first solve UNKNOWN) but FEASIBLE in 60 s with one solve and the whole budget; at 70×30 the generator gives 4/4 in 245 s. Both briefs use 88–92 % of a straight double-loaded corridor's frontage at nominal sizes. Consequences: the D.1 trigger in the stretch design is met at about 20 rooms per level; the CP-SAT time split should give the first solve the whole remaining budget instead of `remaining / (k − i)`; the UI's 60 s default cannot solve either brief. |
 | 2026-09-14 | OBJ + JSON exporter of realised complexes (`spacetope/io/mesh.py`, CLI `export`) built from `Topology.Geometry` per cell, not from `Topology.MeshData` or `ExportToOBJ` | `MeshData(mode=1)` returned face indices up to 145 with 44 vertices; `MeshData(mode=0)` returned 10 cell lists for a 12-cell two-level complex; `ExportToOBJ` calls PyPI. Per-cell geometry merged on integer-mm vertex keys and vertex-set face keys reproduces `Topology.Faces` exactly (48 on the 9-cell complex, 71 on the 12-cell one) and one shared face per realised contact (26 = 26). Tests: `tests/test_export.py` (3 pass). Exploration of what comes next: `docs/2026-09-14_PERFORMANCE_GRAPH_LEARNING_EXPLORATION.md`. |
+| 2026-09-19 | M7 confirmed concluded by rerunning its gates (`test_m7_brief` 17, `test_m7_levels` 7, `test_m7_doors` 7, `test_m7_generators` 3, `test_m7_cpsat` 6; mocked browser flow and circulation both pass). PLAN gains a plain-language §0 with mermaid diagrams and a rigorous generator comparison §2.1; an interactive explainer with today's real options is published as the "Spacetope Field Guide" artifact (https://claude.ai/artifact/LogkrcvLKvqZ1Fnq3Zgms7) | The user asked for lay explanations and explorative visuals grounded in real results. The artifact draws the 8 beam and 4 CP-SAT options of `eight_rooms_corridor` and the 4 options of `two_levels_stair` (seed 0) as plans with shared walls, adjacency graph and doors, plus the verified-share chart from the 2026-09-14 measurements. Left as they were in the M7 plan: door sizes are placeholders (D9); the out-of-scope list (§8) stands. |
+| 2026-09-20 | Stretch design note given the same treatment as PLAN (plain-language §0, decision table, lay boxes before B.4, B.5, D.2, mermaid diagrams) and the rectangular-dual pipeline (B.3–B.5) prototyped in `docs/experiments/2026-09-20_dual_proto.py`; interactive "Stretch Goals Explorer" published (https://claude.ai/artifact/1RhyCyuLTcjUGxSydstrCR) | Prototype: wish graph → chords in one maintained embedding (through corridors kept on the outer walk) → void ring → N/E/S/W → RELs by CP-SAT with blocking clauses → segment-based integer sizing → `spacetope.verify`. Distinct verified duals: three_rooms 8, eight_rooms_corridor 8 (912 labellings over 76 seeds, 10 sized), clinic 1, house_ground and gallery_rich 0 (room-to-room doors pin depths). Three rules the design lacked are recorded in B.9: through corridors, void ring with flank rooms on the wall, staircase choice per void pair. The M4 stretch gate line holds on the eight-room brief. Not scheduled; the prototype lives under docs/experiments, not in the package. |
 
 ## 6. Open questions (answer as they become blocking)
 
