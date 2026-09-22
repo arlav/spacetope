@@ -117,3 +117,17 @@ def test_analysis_and_export(built, tmp_path):
     graphs = list(csv.DictReader((tmp_path / "pyg" / "graphs.csv").open()))
     nodes = list(csv.DictReader((tmp_path / "pyg" / "nodes.csv").open()))
     assert len(graphs) == info["graphs"] and len(nodes) == info["nodes"]
+
+
+def test_api_carries_topology_class_and_analysis():
+    from fastapi.testclient import TestClient
+    from backend.app.main import app
+    client = TestClient(app)
+    fx = client.get("/api/fixtures/eight_rooms_corridor").json()
+    bid = client.post("/api/brief", json=fx).json()["brief_id"]
+    res = client.post("/api/generate", json={"brief_id": bid, "generator": "beam", "seed": 0, "wait": True}).json()
+    opts = client.get(f"/api/options/{res['job_id']}").json()
+    ok = [o for o in opts if o["ok"]]
+    assert ok and all(isinstance(o["topology_class"], int) for o in ok)
+    assert len({o["topology_class"] for o in ok}) < len(ok)          # identical-office swaps share a class
+    assert all(o["analysis"].get("busiest") == "corridor" for o in ok)

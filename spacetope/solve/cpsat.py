@@ -176,6 +176,24 @@ def solve_cpsat(brief: Brief, params: CpsatParams | None = None, seed: int = 0,
                     opts.extend(_touch_literal(m, V[r.name], V[c.name], side, need, f"acc_{r.name}_{c.name}_{side}") for side in HSIDES)
             if opts:
                 m.AddBoolOr(opts)
+    # a shaft reaches a corridor on every level it serves. With one corridor per level expansion makes this a
+    # required contact; on a chained spine it is a choice of segment, so it is stated here (PLAN M15b).
+    for s in brief.spaces:
+        if not s.is_shaft:
+            continue
+        for k in range(s.serves[0], s.serves[1] + 1):
+            opts = []
+            for c in brief.spaces:
+                if c.program != "corridor" or not on_level(c.name, k) or not can_touch(c.name, s.name):
+                    continue
+                key = frozenset((s.name, c.name))
+                if key in lits_by_pair:
+                    opts.extend(lits_by_pair[key])
+                else:
+                    need = required_overlap_mm(brief, s.name, c.name, p.door_mm)
+                    opts.extend(_touch_literal(m, V[s.name], V[c.name], side, need, f"sh_{s.name}_{c.name}_{k}_{side}") for side in HSIDES)
+            if opts:
+                m.AddBoolOr(opts)
     # PLAN M10, redundant frontage cut. Spaces touching one side of a corridor do not overlap each other and each
     # overlaps the corridor's extent, so all but the two outermost lie inside it: the sum of their smallest widths
     # is at most the corridor's length on that side plus the two largest possible overhangs.

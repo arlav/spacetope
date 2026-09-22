@@ -168,3 +168,21 @@ Full note: `docs/2026-09-20_TOPOLOGICPY_OPPORTUNITIES.md`. Facts, all `[RUN]` un
 - `[RUN 0.9.71]` `Topology.ExportToTPY` / `ByTPYPath` round-trip cell dictionaries and face apertures with their dictionaries (2.9 KB, 29 ms / 3 ms). `Topology.JSONString` round trip still loses cell dictionaries.
 - `[RUN 0.9.71]` `Cell.Inflate(cell, faces)` moved 4 of 6 faces to the limiting faces (12 → 90 m³). `Topology.Touches/Overlaps/Disjoint` correct on two boxes. New `TGraph.DisjointPaths`, `MinimumCut`, `VertexConnectivity`, `BiconnectedComponents` work on a door-graph-shaped TGraph (2 disjoint paths between corridors; cut = stair + lift).
 - `[SRC]` 0.9.71 metadata: LGPL-3.0-or-later; deps numpy, scipy, pandas, shapely, plotly, lark, webcolors, nbformat, requests, packaging. `Graph` API identical to 0.9.57 (188 methods).
+
+## 14. Behaviour changes on the pin bump 0.9.57 → 0.9.71 (2026-09-20, all `[RUN]`)
+
+Found by `tests/test_topologic_smoke.py` on the first run after the bump; probed with two 4 × 4 × 3 m boxes.
+
+| Case | 0.9.57 | 0.9.71 |
+|---|---|---|
+| exact contact | CellComplex, 2 cells, 11 faces, 1 shared | same |
+| gap 0.05 mm (below `tolerance`) | merged: 2 cells | **empty CellComplex** (0 cells, 0 faces) |
+| gap 0.5 mm (above `tolerance`) | `None` | **empty CellComplex**, not `None` |
+| disjoint (6 m apart) | `None` | **empty CellComplex**, not `None` |
+| overlap 50 mm | 3 cells, one a 0.6 m³ sliver | same |
+| `ByCells` default dictionaries | dropped (names `None`) | **kept** (`transferDictionaries=False` still returns names) |
+
+Consequences. A failed merge is now an object, so "`ByCells` is not `None`" is no longer a test of anything:
+`realise` treats a complex without cells as a failed build on every version. Sub-tolerance gaps no longer heal,
+which only tightens rule 1 (exact integer-mm coordinates). Selectors are still applied after `ByCells`; with 0.9.71
+they are redundant for cells but harmless, and they remain the path for older pins. Licence: LGPL-3.0-or-later.
