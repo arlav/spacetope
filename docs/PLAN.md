@@ -1,6 +1,6 @@
 # spacetope — plan
 
-Written 2026-09-13, replanned 2026-09-20. Status: M0–M5, M7 and M8 gates green; M6 (learned scorers) failed its gate four times and is parked. **Current work: the stretch programme M9–M17 (§4.9)**, built in order on branch `m9-stretch`; each milestone's status is kept in the table at the top of §4.9. Plain-language guide: §0. Interactive explainers: Spacetope Field Guide (https://claude.ai/artifact/LogkrcvLKvqZ1Fnq3Zgms7) and Stretch Goals Explorer (https://claude.ai/artifact/1RhyCyuLTcjUGxSydstrCR).
+Written 2026-09-13, replanned 2026-09-20. Status: M0–M5, M7 and M8 gates green; M6 (learned scorers) failed its gate four times and is parked. **Current work: the stretch programme M9–M17 (§4.9)**, built in order on branch `m9-stretch`; each milestone's status is kept in the table at the top of §4.9. Plain-language guide: §0. A short snapshot of where everything stands, with the gate counts and the known limits, is `STATUS.md` (tracked, unlike the dated notes). Interactive explainers: Spacetope Field Guide (https://claude.ai/artifact/LogkrcvLKvqZ1Fnq3Zgms7) and Stretch Goals Explorer (https://claude.ai/artifact/1RhyCyuLTcjUGxSydstrCR).
 
 ## 0. In plain words (for readers who are not solver engineers)
 
